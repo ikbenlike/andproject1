@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++20 -O0 -Wall -Werror -Wextra
+CXXFLAGS = -std=c++20 -O0 -Wall -Werror -Wextra -ggdb
 
 project1: main.cpp
 	$(CXX) $(CXXFLAGS) $< -o $@
