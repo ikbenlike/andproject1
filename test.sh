@@ -7,6 +7,6 @@ do
 	if [ "$ans" = "$out" ]; then
 		echo "Test $i successful"
 	else
-		echo "Test $i failed"
+		echo "Test $i failed (expected '$ans', got '$out')"
 	fi
 done

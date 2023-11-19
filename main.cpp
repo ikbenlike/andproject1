@@ -82,7 +82,7 @@ public:
 		}
 
 		size_t longest = 0;
-		for(Tree t : m_children) {
+		for(Tree &t : m_children) {
 			size_t length = t.findLongestBranch() + 1;
 			if(length > longest) {
 				longest = length;
