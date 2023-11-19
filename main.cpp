@@ -71,19 +71,19 @@ public:
 
 	void buildTree() {
 		reduceFits();
-		for(Tree t : m_children) {
+		for(Tree &t : m_children) {
 			t.buildTree();
 		}
 	}
 
 	size_t findLongestBranch() {
 		if(m_children.size() == 0) {
-			return 1;
+			return 0;
 		}
 
 		size_t longest = 0;
 		for(Tree t : m_children) {
-			size_t length = t.findLongestBranch();
+			size_t length = t.findLongestBranch() + 1;
 			if(length > longest) {
 				longest = length;
 			}
@@ -121,6 +121,6 @@ int main() {
 	std::sort(boxes.rbegin(), boxes.rend());
 	Tree tree = Tree(boxes);
 	tree.buildTree();
-	std::cout << tree.findLongestBranch() << std::endl;
+	std::cout << boxes.size() - tree.findLongestBranch() << std::endl;
 	//std::cout << boxes.size() << std::endl;
 }
