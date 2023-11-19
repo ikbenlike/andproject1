@@ -38,9 +38,6 @@ public:
 			int i = 0;
 			do {
 				if(b.m_x < m_x && b.m_y < m_y && b.m_z < m_z) {
-					/*std::cout << b << std::endl;
-					std::cout << "fits in: " << std::endl;
-					std::cout << *this << std::endl;*/
 					if(m_full)
 						return CanFit::YesReplace;
 					return CanFit::Yes;
@@ -63,20 +60,6 @@ public:
 		m_full = true;
 		return r;
 	}
-	
-	/*bool insert(Box b) {
-		if(!(m_full && n_inside > b.n_inside + 1)) {
-			int i = 0;
-			do {
-				if(b.m_x < m_x && b.m_y < m_y && b.m_z < m_z) {
-					m_full = true;
-					return true;
-				}
-				b.rotate();
-			} while(i++ < 2);
-		}
-		return false;
-		}*/
 	
 	static Box readBox(std::istream &s) {
 		double x = 0;
@@ -108,7 +91,6 @@ int main() {
 	std::vector<Box> sorted_boxes = {};
 	std::list<Box> boxes = {};
 	std::cin >> nbox;
-	//std::cout << "amount of boxes: " << nbox << std::endl;
 	sorted_boxes.resize(nbox);
 	boxes.resize(nbox);
 	for(size_t i = 0; i < nbox; i++) {
@@ -117,18 +99,7 @@ int main() {
 
 	std::sort(sorted_boxes.begin(), sorted_boxes.end());
 	std::copy(sorted_boxes.begin(), sorted_boxes.end(), boxes.begin());
-	/*for(auto i = boxes.begin(); i != boxes.end();) {
-		bool inc = true;
-		for(auto j = i; j != boxes.end(); j++) {
-			if(j->insert(*i)) {
-				inc = false;
-				i = boxes.erase(i);
-				break;
-			}
-		}
-		if(inc)
-			i++;
-			}*/
+
 	for(auto i = boxes.begin(); i != boxes.end();) {
 		bool inc = true;
 		for(auto j = i; j != boxes.end(); j++) {
@@ -147,8 +118,6 @@ int main() {
 		if(inc)
 			i++;
 	}
-	/*for(Box b : boxes) {
-		std::cout << b << std::endl;
-		}*/
+
 	std::cout << boxes.size() << std::endl;
 }
