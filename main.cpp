@@ -15,9 +15,7 @@ private:
 	double m_x = 0;
 	double m_y = 0;
 	double m_z = 0;
-	bool m_full = false;
-	size_t m_n_inside = 0;
-	Box *m_inner = nullptr;
+	bool m_used = false;
 public:
 	Box(double x = 0, double y = 0, double z = 0)
 	: m_x{x}, m_y{y}, m_z{z} { }
@@ -33,18 +31,19 @@ public:
 		m_z = tmp;
 	}
 
-	CanFit canFit(Box b) {
+    bool canFit(Box b) {
+		if(m_used) {
+			return false;
+		}
 		if(!(m_full && m_n_inside <= b.m_n_inside + 1)) {
 			int i = 0;
 			do {
 				if(b.m_x < m_x && b.m_y < m_y && b.m_z < m_z) {
-					if(m_full)
-						return CanFit::YesReplace;
-					return CanFit::Yes;
+					return true;
 				}
 			} while(i++ < 2);
 		}
-		return CanFit::No;
+		return false;
 	}
 
 	Box insert(Box b) {
@@ -86,38 +85,25 @@ bool operator<(Box const &b1, Box const &b2) {
 	return b1.volume() < b2.volume();
 }
 
+std::vector<size_t> findSubsequenceIndices(std::vector<Box> boxes) {
+	
+}
+
 int main() {
 	size_t nbox = 0;
-	std::vector<Box> sorted_boxes = {};
-	std::list<Box> boxes = {};
+	std::vector<Box> boxes = {};
+	//std::list<Box> boxes = {};
 	std::cin >> nbox;
-	sorted_boxes.resize(nbox);
+	//sorted_boxes.resize(nbox);
 	boxes.resize(nbox);
 	for(size_t i = 0; i < nbox; i++) {
-		sorted_boxes[i] = Box::readBox(std::cin);
+	    boxes[i] = Box::readBox(std::cin);
 	}
 
-	std::sort(sorted_boxes.begin(), sorted_boxes.end());
-	std::copy(sorted_boxes.begin(), sorted_boxes.end(), boxes.begin());
+	std::sort(boxes.begin(), boxes.end());
+	//std::copy(sorted_boxes.begin(), sorted_boxes.end(), boxes.begin());
 
-	for(auto i = boxes.begin(); i != boxes.end();) {
-		bool inc = true;
-		for(auto j = i; j != boxes.end(); j++) {
-			CanFit fits = j->canFit(*i);
-			if(fits != CanFit::No) {
-				inc = false;
-				Box tmp = j->insert(*i);
-				if(fits == CanFit::YesReplace) {
-					*i = tmp;
-				}
-				else {
-					i = boxes.erase(i);
-				}
-			}
-		}
-		if(inc)
-			i++;
-	}
+
 
 	std::cout << boxes.size() << std::endl;
 }
